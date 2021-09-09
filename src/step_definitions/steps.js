@@ -1,40 +1,30 @@
-import {Given, When, Then} from '@cucumber/cucumber'
-import homePage from '../page_objects/HomePage.js'
-import headerPage from '../page_objects/HeaderPage.js'
-import categoriesPage from '../page_objects/CategoriesPage.js'
-import subcategoriesPage from '../page_objects/SubcategoriesPage.js'
-import {checkElementIsVisible, checkElementsIsNotPresent} from '../helpers/element/checks.js'
-import {getTableCellElement} from '../helpers/element/actions.js'
-import shoppingCartPage from '../page_objects/ShoppingCartPage.js'
+import { Given, When, Then } from '@cucumber/cucumber';
+import { expect as chaiExpect } from 'chai';
+import { HomePage } from '../po/pages/HomePage.js';
+import { ShoppingCartPage } from '../po/pages/ShoppingCartPage.js';
+import { checkElementIsVisible } from '../core/wdio/checks.js';
+import { getTableCellElement } from '../core/wdio/actions.js';
+
+const homePage = new HomePage();
+const shoppingCartPage = new ShoppingCartPage();
 
 
 Given(/^a user is on LiteCart home page$/, async () => {
-    await homePage.openWebsite();
+    await homePage.openPage();
 });
 
-When(/^a user selects Rubber Ducks category$/, async () => {
-    await headerPage.selectCategory()
+When(/^a user selects "(.*)" category$/, async (categoryType) => {
+    await homePage.sidebar.selectCategory(categoryType);
 });
 
-When(/^a user selects Rubber Ducks subcategory$/, async () => {
-    await categoriesPage.getToSubcategory()
-});
-
-Then(/^a user should see the following duck types$/, async (table) => {
-    let data = table.raw(); //[['Yellow'], ['Green']]
-    for (const [arrElement] of data) {
-        await checkElementIsVisible(subcategoriesPage.getDuck(arrElement));
-    }
-});
-
-When(/^a user selects "(.*)" Duck in subcategory$/, async (duckColor) => {
-    await subcategoriesPage.getDuck(duckColor).waitForClickable();
-    await subcategoriesPage.getDuck(duckColor).click();
+When(/^a user selects "(.*)" in subcategory$/, async (duckColor) => {
+    await (await homePage.sidebar.selectedCategory.getSubcategoryItem(duckColor)).waitForClickable();
+    await (await homePage.sidebar.selectedCategory.getSubcategoryItem(duckColor)).click();
 });
 
 Then(/^a duck should have certain technical data$/, async (table) => {
-    await subcategoriesPage.technicalDataTab.click();
-    let data = table.raw(); //[['Body', 'Yellow'], ['Eyes', 'Black'], ['Beak', 'Orange'], ['Material', 'Plastic']]
+    await homePage.addToCartForm.technicalDataTab.click();
+    const data = table.raw(); //[['Body', 'Yellow'], ['Eyes', 'Black'], ['Beak', 'Orange'], ['Material', 'Plastic']]
     for (const [characteristic, characteristicValue] of data) {
         await checkElementIsVisible(getTableCellElement(characteristic));
         await checkElementIsVisible(getTableCellElement(characteristicValue));
@@ -42,38 +32,40 @@ Then(/^a duck should have certain technical data$/, async (table) => {
 });
 
 When(/^a user selects a duck of "(.*)" size$/, async (sizeValue) => {
-    await subcategoriesPage.sizeDropdown.selectByVisibleText(sizeValue); 
+    await homePage.addToCartForm.sizeSelect.selectOption(sizeValue);
 });
 
 When(/^a user specifies "(.*)" items of ducks$/, async (duckQuantity) => {
-    await subcategoriesPage.quantityInput.clearValue();
-    await subcategoriesPage.quantityInput.setValue(duckQuantity);
+    await homePage.addToCartForm.quantityInput.clearValue();
+    await homePage.addToCartForm.quantityInput.setValue(duckQuantity);
 });
 
 Then(/^a user adds ducks to a cart$/, async () => {
-    await subcategoriesPage.addToCartButton.click();
+    await homePage.addToCartForm.addToCartButton.click();
 });
 
 When(/^a user waits until the ducks appear in the cart$/, async () => {
-    await headerPage.cartCounter.waitForDisplayed({timeout:2000});
+    await homePage.header.cartCounter.waitForExist({ timeout: 2000 });
+    await browser.pause(2000); //без этого степа в корзине не появляется товар
 });
 
 When(/^a user opens the cart$/, async () => {
-    await headerPage.cartIcon.click();
+    await homePage.header.cartIcon.click();
+    await browser.pause(2000); //без этого степа в корзине не появляется товар
 });
 
-Then(/^a user (should|should not) see "(.*)" "(.*)" duck items$/, async (condition, number, color) => {
+Then(/^a user (should|should not) see "(.*)" item$/, async (condition, name) => {
     switch (condition) {
         case 'should':
-            await checkElementIsVisible(shoppingCartPage.getItemDetails(number, color));
+            await checkElementIsVisible((await shoppingCartPage.getProductItemByName(name)).rootElement);
             break;
         case 'should not':
-            await checkElementsIsNotPresent(shoppingCartPage.getItemDetails(number, color));
+            chaiExpect((await shoppingCartPage.getProductItemByName(name))).to.equal(undefined);
             break;
     }
 });
 
-When(/^a user deletes ducks from the cart$/, async () => {
-    await shoppingCartPage.removeIcon.click();
+When(/^a user deletes "(.*)" product from the cart$/, async (name) => {
+    await (await shoppingCartPage.getProductItemByName(name)).deleteProductItem();
     await browser.pause(3000);
 });
