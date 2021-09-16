@@ -1,17 +1,14 @@
+import { WebElement } from "../elements/web-element";
 export class Category {
     constructor(rootElement) {
-        this.rootElement = rootElement;
+        this.rootElement = rootElement; //wdio element
     };
 
-    async getSubcategoryItem(name) {
-        return await $(`[data-name="${name}"]`);
+    getSubcategoryItem(name) {
+        return $(`[data-name="${name}"]`);
     };
 
     async getName() {
-        return await this.rootElement.$('<a>').getText();
-    };
-
-    async click() {
-        await this.rootElement.click();
+        return new WebElement(this.rootElement.$('a')).getText();
     };
 }

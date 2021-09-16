@@ -1,5 +1,5 @@
 import { Button } from "../elements/button.js";
-
+import { WebElement } from "../elements/web-element.js";
 export class ProductItem {
     constructor(rootElement) {
         this.rootElement = rootElement;
@@ -9,15 +9,7 @@ export class ProductItem {
         return new Button(this.rootElement.$('[name=remove_cart_item]'));
     };
 
-    async deleteProductItem() {
-        await this.removeIcon.click();
-    };
-
     async getName() {
-        return await this.rootElement.getAttribute("data-name");
-    };
-
-    async getQuantity() {
-        return await this.rootElement.getAttribute("data-quantity");
+        return new WebElement(this.rootElement).getAttribute("data-name");
     };
 }

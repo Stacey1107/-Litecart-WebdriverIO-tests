@@ -1,4 +1,10 @@
-const allure = require('allure-commandline')
+const allure = require('allure-commandline');
+
+const ALLURE_DATA = {
+    resultsSource: 'artifacts/allure/allure-results',
+    report: 'artifacts/allure/allure-HTML-report',
+};
+
 exports.config = {
     //
     // ====================
@@ -22,7 +28,7 @@ exports.config = {
     // will be called from there.
     //
     specs: [
-        'src/tests/cart.feature'
+        'src/tests/*.feature'
     ],
     // Patterns to exclude.
     exclude: [
@@ -134,14 +140,14 @@ exports.config = {
     // The only one supported by default is 'dot'
     // see also: https://webdriver.io/docs/dot-reporter
     reporters: [['allure', {
-        outputDir: 'artifacts/allure/allure-results',
+        outputDir: ALLURE_DATA.resultsSource,
         disableWebdriverStepsReporting: true,
         disableWebdriverScreenshotsReporting: true,
     }]],
 
     onComplete: function () {
         const reportError = new Error('Could not generate Allure report')
-        const generation = allure(['generate', 'artifacts/allure/allure-results', '-o', 'artifacts/allure/allure-HTML-report', '--clean'])
+        const generation = allure(['generate', ALLURE_DATA.resultsSource, '-o', ALLURE_DATA.report, '--clean'])
         return new Promise((resolve, reject) => {
             const generationTimeout = setTimeout(
                 () => reject(reportError),
@@ -165,7 +171,7 @@ exports.config = {
     // If you are using Cucumber you need to specify the location of your step definitions.
     cucumberOpts: {
         // <string[]> (file/dir) require files before executing features
-        require: ['src/step_definitions/steps.js'],
+        require: ['src/step_definitions/*.js'],
         // <boolean> show full backtrace for errors
         backtrace: false,
         // <string[]> ("extension:module") require files with the given EXTENSION after requiring MODULE (repeatable)

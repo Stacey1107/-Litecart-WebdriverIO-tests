@@ -5,7 +5,10 @@ export class BasePage {
         this.path = path;
     };
 
-    async openPage() {
-        await browser.url(`${config.baseUrl}${this.path}`);
+    async open() {
+        if (browser.config.baseUrl.endsWith('/') && this.path.startsWith('/')) {
+            this.path = this.path.slice(1);
+        };
+        return browser.url(browser.config.baseUrl + this.path);
     };
 }

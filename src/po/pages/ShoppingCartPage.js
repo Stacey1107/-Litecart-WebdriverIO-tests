@@ -1,15 +1,10 @@
-import { ProductItem } from "../blocks/productItem";
+import { ProductItemsList } from "../blocks/productItemsList";
+import { BasePage } from './BasePage.js';
 
-export class ShoppingCartPage {
-
-    async getProductItems() {
-        const productItems = await $$('.items > li');
-        return productItems.map(productItem => new ProductItem(productItem)); //новый массив из экземпляров класса ProductItem
+export class ShoppingCartPage extends BasePage {
+    constructor() {
+        super('checkout');
     };
 
-    async getProductItemByName(name) {
-        return (await this.getProductItems()).find(async item =>
-            (await item.getName()) === name
-        );
-    };
+    productItemsList = new ProductItemsList();
 }

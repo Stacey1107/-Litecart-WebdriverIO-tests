@@ -1,10 +1,7 @@
-export class Button {
+import { WebElement } from './web-element.js'
+export class Button extends WebElement {
     constructor(rootElement) {
-        this.rootElement = rootElement;
-    };
-
-    async click() {
-        await this.rootElement.click();
+        super(rootElement);
     };
 
     async isEnabled() {
@@ -14,5 +11,5 @@ export class Button {
     async isClickable() {
         await this.rootElement.isClickable();
     };
-}
+};
 

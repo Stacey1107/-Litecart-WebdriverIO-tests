@@ -1,21 +1,25 @@
-import { Category } from '../blocks/category.js';
-
+import { Category } from './category.js';
+import { Button } from '../elements/button.js';
 export class Sidebar {
     constructor() {
         this.selectedCategory = '';
     };
 
+    get categoryItems() {
+        return $$('#sidebar .nav > li');
+    };
+
     async getCategoriesList() {
-        const categoryItems = await $$('#sidebar .nav > li');
-        return categoryItems.map(categoryItem => new Category(categoryItem)); //новый массив из экземпляров класса Category
+        return this.categoryItems.map(categoryItem => new Category(categoryItem)); //новый массив из экземпляров класса Category
     };
 
     async getCategoryByName(name) {
-        return (await this.getCategoriesList()).find(async item => (await item.getName()) === name);
+        const categoriesList = await this.getCategoriesList();
+        return categoriesList.find(async item => (await item.getName()) === name);
     };
 
     async selectCategory(categoryName) {
         this.selectedCategory = await this.getCategoryByName(categoryName);
-        await this.selectedCategory.click();
+        await new Button(this.selectedCategory.rootElement).click(); //this.selectedCategory возвращает экземпляр класса Категория. В экземпляре класса Категория берется rootElement и передается в Button
     };
 }

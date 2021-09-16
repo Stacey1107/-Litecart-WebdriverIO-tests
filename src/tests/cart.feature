@@ -14,15 +14,16 @@ Then a duck should have certain technical data
 When a user selects a duck of "Medium" size
 And a user specifies "2" items of ducks
 Then a user adds ducks to a cart
-And a user waits until the ducks appear in the cart
 
 When a user opens the cart
+And a user waits for the item to be displayed
 Then a user should see "Yellow Duck" item
 
 
 Scenario: Ducks deletion from the cart
 
 When a user deletes "Yellow Duck" product from the cart
+And a user waits until the item disappears from the cart
 Then a user should not see "Yellow Duck" item
 
  
