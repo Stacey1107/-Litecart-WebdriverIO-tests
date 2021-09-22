@@ -1,6 +1,8 @@
+import { Waits } from "./waits";
 export class Actions {
     constructor(wdioElement) {
         this.wdioElement = wdioElement;
+        this.wait = new Waits(this.wdioElement);
     };
 
     async getText() {
@@ -12,6 +14,7 @@ export class Actions {
     };
 
     async click() {
+        await this.wait.forClickable();
         await this.wdioElement.click();
     };
 }

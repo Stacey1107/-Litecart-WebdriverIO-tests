@@ -3,11 +3,11 @@ export class Waits {
         this.wdioElement = wdioElement;
     };
 
-    async waitForDisplayed(waitOptions) {
+    async forDisplayed(waitOptions) {
         await this.wdioElement.waitForDisplayed(waitOptions);
     };
 
-    async waitForClickable() {
+    async forClickable() {
         await this.wdioElement.waitForClickable();
     };
 }

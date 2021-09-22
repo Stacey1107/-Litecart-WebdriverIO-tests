@@ -3,12 +3,12 @@ export class Checks {
         this.wdioElement = wdioElement;
     };
 
-    async checkElementIsDisplayed() {
-        expect(this.wdioElement).toBeDisplayed();
+    async elementIsDisplayed() {
+        return expect(this.wdioElement).toBeDisplayed();
     };
 
-    async checkElementsIsNotPresent() {
-        expect(this.wdioElement).not.toBePresent();
+    async elementsIsNotPresent() {
+        return expect(this.wdioElement).not.toBePresent();
     };
 }
 
