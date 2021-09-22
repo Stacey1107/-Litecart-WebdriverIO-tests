@@ -3,7 +3,8 @@ Feature: Goods adding and deletion from the cart
 Scenario: Selecting a duck category & adding it to the cart
 
 Given a user is on LiteCart home page
-When a user selects "Rubber Ducks" category
+When a user accepts cookies
+And a user selects "Rubber Ducks" category
 And a user selects "Yellow Duck" in subcategory
 Then a duck should have certain technical data 
 |Body    |Yellow    |

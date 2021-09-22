@@ -1,4 +1,5 @@
 const config = require('../../../wdio.conf.js').config;
+import { Button } from '../elements/button.js';
 
 export class BasePage {
     constructor(path = '') {
@@ -10,5 +11,9 @@ export class BasePage {
             this.path = this.path.slice(1);
         };
         return browser.url(browser.config.baseUrl + this.path);
+    };
+
+    get acceptCookies() {
+        return new Button($('[name="accept_cookies"]'));
     };
 }

@@ -1,17 +1,18 @@
-import { ProductItem } from './productItem.js'
+import { ProductItem } from './productItem.js';
+import { WebElement } from '../elements/web-element.js';
 
 export class ProductItemsList {
 
     get productItems() {
-        return $$('.items > li');
+        return new WebElement($$('.items > li'));
     };
 
     get productItemsWrapper() {
-        return $('.items');
-    }
+        return new WebElement($('.items'));
+    };
 
     async getProductItems() {
-        return (await this.productItems).map(productItem => new ProductItem(productItem)); //новый массив из экземпляров класса ProductItem
+        return (await this.productItems.wdioElement).map(productItem => new ProductItem(productItem)); //новый массив из экземпляров класса ProductItem
 
     };
 
@@ -29,6 +30,6 @@ export class ProductItemsList {
             }
         }
 
-        return null;
+        return 'Product item by name has not been found';
     };
 }

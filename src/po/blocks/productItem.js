@@ -1,15 +1,12 @@
 import { Button } from "../elements/button.js";
-import { WebElement } from "../elements/web-element.js";
-export class ProductItem {
-    constructor(rootElement) {
-        this.rootElement = rootElement;
-    };
+import { Actions } from "../../core/wdio/actions.js";
+export class ProductItem extends Actions {
 
     get removeIcon() {
-        return new Button(this.rootElement.$('[name=remove_cart_item]'));
+        return new Button(this.wdioElement.$('[name=remove_cart_item]'));
     };
 
     async getName() {
-        return new WebElement(this.rootElement).getAttribute("data-name");
+        return this.getAttribute("data-name");
     };
 }

@@ -1,6 +1,7 @@
 import { Button } from '../elements/button.js';
 import { Select } from '../elements/select.js';
 import { Input } from '../elements/input.js';
+import { Table } from '../elements/table.js';
 
 export class AddToCartForm {
 
@@ -18,6 +19,10 @@ export class AddToCartForm {
 
     get addToCartButton() {
         return new Button($('[name=add_cart_product]'));
+    };
+
+    get technicalDataTable() {
+        return new Table($('#tab-technical-data > table'));
     };
 }
 

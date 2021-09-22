@@ -1,15 +1,11 @@
-import { WebElement } from './web-element.js'
-export class Button extends WebElement {
-    constructor(rootElement) {
-        super(rootElement);
-    };
+import { Actions } from '../../core/wdio/actions.js';
+export class Button extends Actions {
 
     async isEnabled() {
-        await this.rootElement.isEnabled();
+        await this.wdioElement.isEnabled();
     };
 
     async isClickable() {
-        await this.rootElement.isClickable();
+        await this.wdioElement.isClickable();
     };
 };
-

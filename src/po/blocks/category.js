@@ -1,14 +1,14 @@
 import { WebElement } from "../elements/web-element";
 export class Category {
-    constructor(rootElement) {
-        this.rootElement = rootElement; //wdio element
+    constructor(wdioElement) {
+        this.wdioElement = wdioElement;
     };
 
     getSubcategoryItem(name) {
-        return $(`[data-name="${name}"]`);
+        return new WebElement($(`[data-name="${name}"]`));
     };
 
     async getName() {
-        return new WebElement(this.rootElement.$('a')).getText();
+        return new WebElement(this.wdioElement.$('a')).getText();
     };
 }

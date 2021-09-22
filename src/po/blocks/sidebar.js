@@ -20,6 +20,6 @@ export class Sidebar {
 
     async selectCategory(categoryName) {
         this.selectedCategory = await this.getCategoryByName(categoryName);
-        await new Button(this.selectedCategory.rootElement).click(); //this.selectedCategory возвращает экземпляр класса Категория. В экземпляре класса Категория берется rootElement и передается в Button
+        await new Button(this.selectedCategory.wdioElement).click(); //this.selectedCategory возвращает экземпляр класса Категория. В экземпляре класса Категория берется wdioElement и передается в Button
     };
 }

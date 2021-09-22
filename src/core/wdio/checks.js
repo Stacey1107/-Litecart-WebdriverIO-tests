@@ -1,15 +1,14 @@
-import { expect as chaiExpect } from "chai";
 export class Checks {
-    constructor(element) {
-        this.element = element; //this.element - это экземпляр класса WebElement
+    constructor(wdioElement) {
+        this.wdioElement = wdioElement;
     };
 
-    async checkElementIsVisible() {
-        await chaiExpect(await this.element.isDisplayed()).to.equal(true);
+    async checkElementIsDisplayed() {
+        expect(this.wdioElement).toBeDisplayed();
     };
 
     async checkElementsIsNotPresent() {
-        await chaiExpect(this.element.isExisting()).to.equal(false);
+        expect(this.wdioElement).not.toBePresent();
     };
 }
 
