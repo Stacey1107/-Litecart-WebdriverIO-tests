@@ -2,16 +2,13 @@
   "name": "webdriverio-tests",
   "version": "1.0.0",
   "description": "WebDriverIO studying",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "wdio run wdio.conf.js"
   },
   "author": "Anastasiya",
   "license": "ISC",
-  "dependencies": {
-    "@wdio/cli": "^7.11.1"
-  },
   "devDependencies": {
+    "@wdio/cli": "^7.11.1",
     "@babel/cli": "^7.14.8",
     "@babel/core": "^7.15.0",
     "@babel/preset-env": "^7.15.0",
