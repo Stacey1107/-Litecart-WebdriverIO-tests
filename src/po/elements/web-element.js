@@ -4,7 +4,6 @@ import { Checks } from "../../core/wdio/checks";
 export class WebElement extends Actions {
     constructor(wdioElement) {
         super(wdioElement);
-        this.wait = new Waits(this.wdioElement);
         this.check = new Checks(this.wdioElement);
     };
 };
