@@ -13,7 +13,6 @@ export class ProductItemsList {
 
     async getProductItems() {
         return (await this.productItems.wdioElement).map(productItem => new ProductItem(productItem)); //новый массив из экземпляров класса ProductItem
-
     };
 
     // async getProductItemByName(name) {
