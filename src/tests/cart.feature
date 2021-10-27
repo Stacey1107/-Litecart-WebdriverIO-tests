@@ -1,5 +1,6 @@
 Feature: Goods adding and deletion from the cart
 
+@foo
 Scenario: Selecting a duck category & adding it to the cart
 
 Given a user is on LiteCart home page
@@ -20,7 +21,7 @@ When a user opens the cart
 And a user waits for the item to be displayed
 Then a user should see "Yellow Duck" item
 
-
+@boo
 Scenario: Ducks deletion from the cart
 
 When a user deletes "Yellow Duck" product from the cart
