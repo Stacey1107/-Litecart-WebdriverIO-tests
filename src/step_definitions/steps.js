@@ -72,6 +72,10 @@ When(/^a user deletes "(.*)" product from the cart$/, async (name) => {
     return (await shoppingCartPage.productItemsList.getProductItemByName(name)).removeIcon.click();
 });
 
+// When(/^a user waits until the item disappears from the cart$/, async () => {
+//     return expect(shoppingCartPage.productItemsList.productItemsWrapper.wdioElement).not.toBeDisplayed();
+// });
+
 When(/^a user waits until the item disappears from the cart$/, async () => {
-    return expect(shoppingCartPage.productItemsList.productItemsWrapper.wdioElement).not.toBeDisplayed();
+    throw new Error(); //to check AfterStep hook with result.status === TestStepResultStatus.FAILED
 });
