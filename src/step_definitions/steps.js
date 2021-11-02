@@ -12,7 +12,8 @@ Given(/^a user is on LiteCart home page$/, async () => {
 });
 
 When(/^a user accepts cookies$/, async () => {
-    return homePage.acceptCookies.click();
+    //return homePage.acceptCookies.click();
+    return chaiExpect(false).to.be.equal(true); // to see a screenshot in Allure-HTML
 });
 
 When(/^a user selects "(.*)" category$/, async (categoryType) => {
