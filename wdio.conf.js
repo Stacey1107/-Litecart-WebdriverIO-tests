@@ -142,7 +142,7 @@ exports.config = {
     reporters: [['allure', {
         outputDir: ALLURE_DATA.resultsSource,
         disableWebdriverStepsReporting: true,
-        disableWebdriverScreenshotsReporting: true,
+        disableWebdriverScreenshotsReporting: false,
     }]],
 
     onComplete: function () {
@@ -283,8 +283,11 @@ exports.config = {
      * @param {string}             result.error    error stack if scenario failed
      * @param {number}             result.duration duration of scenario in milliseconds
      */
-    // afterStep: function (step, scenario, result) {
-    // },
+    afterStep: async function (step, scenario, { error, duration, passed }) {
+        if (error) {
+            await browser.takeScreenshot();
+        }
+    },
     /**
      *
      * Runs before a Cucumber Scenario.
